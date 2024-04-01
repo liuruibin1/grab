@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.grab.mapper.MintTokenMapper">
+
+        <!-- 通用查询映射结果 -->
+        <resultMap id="BaseResultMap" type="com.grab.domain.MintToken">
+                    <result column="id" property="id" />
+                    <result column="chain_id" property="chainId" />
+                    <result column="address" property="address" />
+                    <result column="symbol" property="symbol" />
+                    <result column="decimals" property="decimals" />
+                    <result column="price" property="price" />
+                    <result column="logo_uri" property="logoUri" />
+                    <result column="create_ts" property="createTs" />
+                    <result column="hermes_id" property="hermesId" />
+        </resultMap>
+
+        <!-- 通用查询结果列 -->
+        <sql id="Base_Column_List">
+            id, chain_id, address, symbol, decimals, price, logo_uri, create_ts
+        </sql>
+    <update id="updatePriceById" parameterType="map">
+        UPDATE t_mint_token
+        SET price = #{price}
+        WHERE id = #{id}
+    </update>
+</mapper>

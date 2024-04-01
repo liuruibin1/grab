@@ -1,0 +1,69 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: %artifactId%
+  profiles:
+    active: ${run.spring.profile:%mvn.spring.profile%}
+
+logging:
+  level:
+    root: error
+
+xxl:
+  job:
+    admin:
+      addresses: http://127.0.0.1:8000/
+    accessToken:
+    executor:
+      port: 8002
+      appname: ${spring.application.name}
+      address:
+      ip:
+      logpath: ./logs/${spring.application.name}-jobhandler
+      logretentiondays: 30
+
+app:
+  http:
+    proxy:
+      enable: false
+      host: localhost
+      port: 7890
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    url: jdbc:p6spy:postgresql://127.0.0.1:5432/grab?schema=public
+    username: postgres
+    password: 123456
+
+logging:
+  level:
+    root: debug
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    url: jdbc:p6spy:postgresql://127.0.0.1:5432/monitoring_contract?schema=public
+    username: monitoring_admin
+    password: 123456
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    url: jdbc:p6spy:postgresql://127.0.0.1:5432/monitoring_contract?schema=public
+    username: monitoring_admin
+    password: 123456
