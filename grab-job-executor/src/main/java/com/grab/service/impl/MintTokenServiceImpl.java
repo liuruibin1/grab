@@ -10,13 +10,13 @@ import com.grab.mapper.MintTokenMapper;
 import com.grab.service.MintTokenService;
 import com.grab.util.RpcClientProxy;
 import com.xxl.job.core.util.HttpClientUtil;
-import jakarta.annotation.Resource;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.p2p.solanaj.core.PublicKey;
 import org.p2p.solanaj.rpc.types.TokenResultObjects;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -202,7 +202,7 @@ public class MintTokenServiceImpl extends ServiceImpl<MintTokenMapper, MintToken
     }
 
     public static void main(String[] args) {
-        RpcClientProxy rpcClient = new RpcClientProxy("https://go.getblock.io/9d3ef7d157f045a4bb24faaf12745f24");
+        RpcClientProxy rpcClient = new RpcClientProxy(true,"https://go.getblock.io/9d3ef7d157f045a4bb24faaf12745f24");
 
         try {
             final PublicKey tokenKey = new PublicKey("7BgBvyjrZX1YKz4oh9mjb8ZScatkkwb8DzFx7LoiVkM3");

@@ -21,9 +21,6 @@ import java.util.List;
 
 public class RpcClientProxy extends RpcClient {
 
-    @Value("${app.http.proxy.enable}")
-    public boolean enableProxy = true;
-
     @Value("${app.http.proxy.host}")
     public String proxyHost = "localhost";
 
@@ -36,19 +33,19 @@ public class RpcClientProxy extends RpcClient {
 
     private RpcApi rpcApi;
 
-    public RpcClientProxy(Cluster endpoint) {
+    public RpcClientProxy(boolean httpProxyEnable, Cluster endpoint) {
         super(endpoint.getEndpoint());
-        initializeHttpClient();
+        initializeHttpClient(httpProxyEnable);
     }
 
-    public RpcClientProxy(String endpoint) {
+    public RpcClientProxy(boolean httpProxyEnable,String endpoint) {
         super(endpoint);
-        initializeHttpClient();
+        initializeHttpClient(httpProxyEnable);
     }
 
-    private void initializeHttpClient() {
+    private void initializeHttpClient(boolean httpProxyEnable) {
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
-        if (enableProxy) {
+        if (httpProxyEnable) {
             Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(proxyHost, proxyPort));
             clientBuilder.proxy(proxy);
         }

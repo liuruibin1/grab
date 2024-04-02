@@ -7,9 +7,9 @@ import com.grab.domain.DTO.ResponseResult;
 import com.grab.mapper.AccountMapper;
 import com.grab.service.AccountService;
 import com.xxl.job.core.util.UUIDUtil;
-import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

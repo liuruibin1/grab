@@ -2,7 +2,7 @@ package com.grab.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.annotations.Api;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -17,7 +17,7 @@ import java.util.Date;
 @Data
 @Accessors(chain = true)
 @TableName("t_account_token")
-@Schema(name = "AccountToken对象", description = "")
+@Api(description = "AccountToken对象")
 public class AccountToken {
 
     @TableField("id")

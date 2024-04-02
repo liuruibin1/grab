@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.xxl.job.core.util.UUIDUtil;
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.annotations.Api;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -19,7 +19,7 @@ import java.util.Date;
 @Data
 @Accessors(chain = true)
 @TableName("t_mint_token")
-@Schema(name = "MintToken对象", description = "MintToken对象")
+@Api(description = "MintToken对象")
 public class MintToken {
 
     @TableField(value = "id")
@@ -43,7 +43,7 @@ public class MintToken {
     @TableField("logo_uri")
     private String logoUri;
 
-    @TableField(value = "create_ts", fill = FieldFill.INSERT)
+    @TableField(value = "create_ts")
     private Date createTs;
 
     @TableField("hermes_id")

@@ -1,14 +1,12 @@
 package com.grab.domain;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.annotations.Api;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @author robinson
@@ -18,7 +16,7 @@ import java.time.LocalDateTime;
 @Data
 @Accessors(chain = true)
 @TableName("t_account")
-@Schema(name = "Account对象", description = "通用返回对象")
+@Api(description = "通用返回对象")
 public class Account {
 
     @TableField(value = "id")
@@ -31,5 +29,5 @@ public class Account {
     private String address;
 
     @TableField(value = "create_ts")
-    private LocalDateTime createTs;
+    private Date createTs;
 }

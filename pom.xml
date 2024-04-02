@@ -25,8 +25,8 @@
         <maven-javadoc-plugin.version>3.4.0</maven-javadoc-plugin.version>
         <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
 
-        <spring-boot.version>3.0.0</spring-boot.version>
-        <spring-boot-admin.version>3.0.0</spring-boot-admin.version>
+        <spring-boot.version>2.7.14</spring-boot.version>
+        <spring-boot-admin.version>2.7.10</spring-boot-admin.version>
 
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
 
@@ -62,7 +62,7 @@
         <mail.version>1.4.7</mail.version>
         <thumbnailator.version>0.4.20</thumbnailator.version>
         <freemarker.version>2.3.31</freemarker.version>
-        <springdoc.version>2.0.2</springdoc.version>
+        <swagger.version>3.0.0</swagger.version>
         <solanaj.version>1.17.2</solanaj.version>
         <lombok.version>1.18.24</lombok.version>
         <poi.version>5.2.4</poi.version>
@@ -180,17 +180,6 @@
 <!--                <version>${slf4j-api.version}</version>-->
 <!--            </dependency>-->
 
-            <dependency>
-                <groupId>pro.fessional</groupId>
-                <artifactId>kaptcha</artifactId>
-                <version>${kaptcha.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.whvcse</groupId>
-                <artifactId>easy-captcha</artifactId>
-                <version>${easy-captcha.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>com.squareup.okhttp3</groupId>
@@ -204,10 +193,16 @@
                 <version>${freemarker.version}</version>
             </dependency>
 
+            <!-- swagger -->
             <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-                <version>${springdoc.version}</version>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger.version}</version>
             </dependency>
 
             <dependency>

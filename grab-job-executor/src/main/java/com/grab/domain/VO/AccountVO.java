@@ -1,10 +1,10 @@
 package com.grab.domain.VO;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.annotations.Api;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,7 +13,7 @@ import java.util.List;
  * @tags 我爱的人在很远的地方, 我必须更加努力
  */
 @Data
-@Schema(name = "AccountVO对象", description = "通用返回对象")
+@Api(description = "AccountVO对象")
 public class AccountVO {
 
     private String id;
@@ -22,7 +22,7 @@ public class AccountVO {
 
     private String address;
 
-    private LocalDateTime createTs;
+    private Date createTs;
 
     private BigDecimal balance = new BigDecimal(0);
 

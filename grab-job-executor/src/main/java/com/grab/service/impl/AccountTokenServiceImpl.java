@@ -19,16 +19,17 @@ import com.grab.util.SolClientUtil;
 import com.xxl.job.core.util.BatchesUtil;
 import com.xxl.job.core.util.BeanUtil;
 import com.xxl.job.core.util.UUIDUtil;
-import jakarta.annotation.Resource;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.p2p.solanaj.core.PublicKey;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -50,6 +51,8 @@ import java.util.stream.Collectors;
 @Service
 public class AccountTokenServiceImpl extends ServiceImpl<AccountTokenMapper, AccountToken> implements AccountTokenService {
 
+    @Value("${app.http.proxy.enable}")
+    public boolean httpProxyEnable;
     @Resource
     AccountTokenMapper mapper;
     @Resource
@@ -60,12 +63,12 @@ public class AccountTokenServiceImpl extends ServiceImpl<AccountTokenMapper, Acc
 
     @Override
     public ResponseResult generate() {
-        int MAX_CONCURRENT_REQUESTS = 5; // 设置最大并发请求数量
-        int BATCH_SIZE = 10; // 设置每个批次的大小
+        int MAX_CONCURRENT_REQUESTS = 10; // 设置最大并发请求数量
+        int BATCH_SIZE = 20; // 设置每个批次的大小
         int BATCH_INTERVAL_MS = 100; // 设置每个批次之间的间隔时间，单位为毫秒
         ExecutorService executor = Executors.newFixedThreadPool(MAX_CONCURRENT_REQUESTS);
         RpcEndpoint randomEndpoint = RpcEndpoint.getRandomEndpoint();
-        RpcClientProxy client = new RpcClientProxy(randomEndpoint.getUrl());
+        RpcClientProxy client = new RpcClientProxy(httpProxyEnable,randomEndpoint.getUrl());
         List<AccountToken> accountTokens = new ArrayList<>();
         try {
             //查询所有账户钱包
@@ -198,7 +201,7 @@ public class AccountTokenServiceImpl extends ServiceImpl<AccountTokenMapper, Acc
     }
 
 
-    private Runnable createBatchTask(RpcClientProxy clientProxy, List<Account> batchList, List<AccountToken> accountTokens, int BATCH_SIZE) {
+    public Runnable createBatchTask(RpcClientProxy clientProxy, List<Account> batchList, List<AccountToken> accountTokens, int BATCH_SIZE) {
         return () -> {
             for (Account account : batchList) {
                 try {
@@ -269,5 +272,12 @@ public class AccountTokenServiceImpl extends ServiceImpl<AccountTokenMapper, Acc
             e.printStackTrace();
         }
         return effectRow;
+    }
+
+
+    public int deleteAll() {
+        LambdaQueryWrapper<AccountToken> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.isNotNull(AccountToken::getId);
+        return this.mapper.delete(lambdaQueryWrapper);
     }
 }

@@ -6,6 +6,7 @@ import org.p2p.solanaj.core.PublicKey;
 import org.p2p.solanaj.rpc.Cluster;
 import org.p2p.solanaj.rpc.RpcException;
 import org.p2p.solanaj.rpc.types.TokenResultObjects;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -18,9 +19,8 @@ public class SolClientUtil {
     // 设置最大重试次数
     private static final int MAX_RETRIES = 3;
 
-    public static PublicKey getTokenAccountsByOwner(PublicKey owner, PublicKey tokenMint) {
+    public static PublicKey getTokenAccountsByOwner(RpcClientProxy client,PublicKey owner, PublicKey tokenMint) {
         RpcEndpoint randomEndpoint = RpcEndpoint.getRandomEndpoint();
-        RpcClientProxy client = new RpcClientProxy(randomEndpoint.getUrl());
         List<Object> params = new ArrayList<>();
         params.add(owner.toBase58());
 
@@ -47,7 +47,7 @@ public class SolClientUtil {
 
     public static BigDecimal getTokenBalance(PublicKey accountPublicKey, MintToken mintToken, RpcClientProxy client) {
         try {
-            PublicKey tokenKey = SolClientUtil.getTokenAccountsByOwner(accountPublicKey, new PublicKey(mintToken.getAddress()));
+            PublicKey tokenKey = SolClientUtil.getTokenAccountsByOwner(client, accountPublicKey, new PublicKey(mintToken.getAddress()));
             if (tokenKey != null) {
                 TokenResultObjects.TokenAmountInfo tokenAmountInfo = client.getApi().getTokenAccountBalance(tokenKey);
                 String amount = tokenAmountInfo.getUiAmountString();
@@ -100,13 +100,13 @@ public class SolClientUtil {
     }
 
     public static void main(String[] args) {
-        RpcClientProxy client = new RpcClientProxy(Cluster.MAINNET);
+        RpcClientProxy client = new RpcClientProxy(true,Cluster.MAINNET);
         PublicKey accountPublicKey = new PublicKey("J1S9H3QjnRtBbbuD4HjPV6RpRhwuk4zKbxsnCHuTgh9w");
         try {
             long balance = client.getApi().getBalance(accountPublicKey);
             BigDecimal solBalance = BigDecimal.valueOf(balance)
                     .divide(BigDecimal.TEN.pow(9));
-            PublicKey tokenKey = SolClientUtil.getTokenAccountsByOwner(accountPublicKey, new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"));
+            PublicKey tokenKey = SolClientUtil.getTokenAccountsByOwner(client,accountPublicKey, new PublicKey("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"));
             if (null != tokenKey) {
                 TokenResultObjects.TokenAmountInfo tokenAmountInfo = client.getApi().getTokenAccountBalance(tokenKey);
                 String amount = tokenAmountInfo.getUiAmountString();
